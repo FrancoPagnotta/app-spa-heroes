@@ -1,0 +1,41 @@
+<h1 class="animated fadeIn"> Héroes <small style="font-size:1.6rem; font-weight:400">Marvel y DC</small> </h1>
+<hr>
+
+<div class="card-container">
+	<!-- *ngFor="let heroe of heroes; let i = index" --> <!--Recordar que con let i = index estamos tomando el indice de cada elemento del array -->
+	<app-heroe-tarjeta (heroeSeleccionado)="verHeroe($event)"  [heroe]="heroe" [idx]="i" *ngFor="let heroe of heroes; let i = index"></app-heroe-tarjeta> <!-- [heroe]="heroe" es la propiedad que va a entrar "desde afuera" o sea desde el padre al hijo en el heroe-tarjeta.component.ts y recordar que la variable "heroe" que le asignamos a [heroe] tiene como valor cada objeto del array por cada vuelta del ciclo for  -->
+</div> 
+<!-- 
+	Analicemos lo que esta pasando con heroeSeleccionado:
+	1. heroe-tarjeta.component.html tiene el siguiente evento (click)="verHeroe()" en un boton.
+	1.a Cuando hacemos click en el boton para ver un heroe en especifico, pasan dos cosas en simultaneo:
+	1.a.1 Se dispara el evento click, este evento llama al metodo verHeroe() que esta presente en heroe-tarjeta.component y en heroes.component pero primero llama al de heroe-tarjeta.component
+	1.a.2 El componente HeroeTarjetaComponent recibe como input la propiedad idx cuyo valor es el indice del objeto en el cual hicimos click, y esta propiedad es emitida desde este mismo componente heroes.component.html que renderiza <app-heroe-tarjeta [idx]="i">. La variable i obtiene su valor de la siguiente expresion let i = index y el index index a su vez proviene de recorrer el array heroes mediante esta expresion *ngFor="let heroe of heroes
+	1.b Entonces el metodo verHeroe() en heroe-tarjeta.component lo que hace es llamar al evento personalizado heroeSeleccionado y que este emita la propiedad idx (que lleva el valor del indice del objeto en cual hicimos click)
+	1.c El metodo personalizado heroeSeleccionado va a salir de este componente HeroeTarjetaComponent gracias al @Output llevando consigo lo que está emitiendo que es la propeidad idx y va a ser escuchado en el renderizado de este componente en el heroes.comopnent.html . 
+	
+	2.En este mismo html, heroes.component.html que renderiza <app-heroe-tarjeta> "escucha" el evento heroeSeleccionado y lo que hace es llamar al metodo verHeroe() del HeroesComponent pasandole como parametro lo que el eventó esta emitiendo que es el idx pero a travez del parametro $event, o sea (heroeSeleccionado)="verHeroe($event)",como que el evento le dice al metodo que llama "uy me ejecutaron, te emito esta propiedad idx pero almacenada en el parametro $event".
+	2.a Entonces como heroeSeleccionado llamó al metodo verHeroe($event) del HeroesComponent, este metodo se ejecuta haciendo lo siguiente:
+	2.a.1 El metodo verHeroe() del lado del HeroesComponent recibe como parametro el idx,  verHeroe(idx : number) en el cual se almacena el valor que le pasamos con el parametro $event en el punto anterior, por lo tanto ahora este metodo  verHeroe(idx : number) tiene en ese parametro idx el indice del objeto en el cual hicimos click y lo que hace este metodo es routearnos hacia la ruta del heroe en particular segun el valor de esta propeidad idx mediante la siguiente expresion this._router.navigate(['/heroe',idx]);
+	3 Al usar la expresion this._router.navigate(['/heroe',idx]); hacemos que en el app.routes, la siguiente expresion path: 'heroe/:id', component: HeroeComponent tenga en :id el valor de la propiedad idx, que como ya dijimos lleva como valor el indice del heroe en el cual hicimos click, que es un objeto del array heroes. 
+	4 En HeroeComponent pasan dos cosas, recibimos las clases ActivatedRoute del Angular router y HeroesService de heroes.service. 
+	4.a ActivatedRoute nos trae la información de la ruta asociada al componente HeroeComponent que viene desde el app.routes, o sea la ruta path: 'heroe/:id', entonces declaramos la propiedad  _ActivatedRoute y la inicializamos con la clase ActivatedRoute. 
+	4.b Para poder acceder a esta iformacion que nos trae ActivatedRoute, usamos la propiedad params, la cual es un observable, un objeto que almacena los parametros que trae la ruta, como por ejemplo en este caso tenemos dos, heroe y id. Para acceder a estos parametros, nos subscribimos a esta propiedad params medinte el metodo subscribe() y esos parametros de la ruta se almacenan el parametro que recibe subscribe que tambien le llamamos params para que sea mas didactico. 
+	4.c Seguimos por inicializar la propiedad heroe = {} que es un objeto (que ya teniamos creada), con el heroe que corresponda a dicho indice en el array heroes. Esto lo hacemos de la siguiente manera: 
+	4.c.1 Importamos el componente HeroesService o bueno la clase HeroesService que es un componente. Seguimos por declarar la la propiedad _heroesService y la inicializamos con esta clase HeroesService, la cual tare un metodo getHeroe que al pasarle el idx como parametro, nos devuelve el heroe correspondiente del array heroes. 
+	4.c.2 Una vez teniendo claro como usamos ActivatedRoute y HeroesService hacemos planteamos todo en la siguiente expresion this._activatedRoute.params.subscribe( params => { this.heroe = this._heroesService.getHeroe( params['id'] ) } );. 
+	4.c.3 Por lo tanto, ahora la propiedad heroe tiene como valor lo que nos devuelve la ejecucion del metodo getHeroe de HeroesService, que es el heroe correspondiente al indice que le pasamos, del array heroes.
+	4.c.4 Entonces ya tenemos en la propiedad heroe, nuestro heroe seleccionado, que recordemos que es un objeto. Ahora lo que sigue es ir al heroe.component.html y mostrar todas sus propiedades. 
+	5 Ya en el heroe.component.html podemos acceder a todas las propiedades del objeto heroe, por ejemplo heroe.nombre, heroe.aparicion, etc correspondientes al heroe que clickeamos.
+  -->
+
+
+  
+
+  <!-- REPASANDO EL VIAJE DEL INDICE DEL OBJETO: Viene viajando desde este mismo archivo heroes.component.html al ser emitido por la propiedad [idx], la cual fue recibida como @Input idx en el heroe-tarjeta-component que luego fue emitida por el metodo personalizado heroeSeleccionado a partir de la ejecucion del evento verHeroe y que luego volvió a este
+		archivo heroes.component.html siendo traida por el evento personalizado heroeSeleccionado y pasada como parametro $event a la llamada del metodo verHeroe($event) y luego en el HeroesComponent recibida como parametro idx en el metodo verHeroe(idx) para ser utilizada para redireccionarnos al HeroeComponent mediante el metodo this._router.navigate(['/heroe',idx]). 
+		Una vez se dispara el navigate, la propiedad idx viaja almacenada en el parametro id de la url que es el que especificamos en el app.routes al poner path: 'heroe/:id' y luego, mediante el acceso a la info de esta ruta por el ActivatedRoute, y la subscripcion a params, es almacenada en el parametro params que en forma de objeto lleva tanto esta propiedad idx como tambien la propeida heroe. 
+		Entonces luego mediante el metodo getHeroe de HeroesService esta propiedad idx almacenada en el parametro id a su vez dentro del parametro params, por eso params['id'], viaja a heroes.service y dentro de este heroes.service, el metodo getHeroe() recibe el idx pero en forma de parametro idx o sea getHeroe(idx) y nos devuelve el objeto correspondiente a ese indice en el array heroes. 
+		Y asi es como logramos mostrar un heroe seleccionado con el click. 
+		
+	 -->

@@ -1,0 +1,27 @@
+
+<div class="card-group animated fadeIn fast"> <!--Recordar que con let i = index estamos tomando el indice de cada elemento del array -->
+  
+    <div class="card">
+      <img [src]="heroe.img" class="card-img-top" [alt]="heroe.nombre">
+  
+      <div class="card-body">
+        <h5 class="card-title"> {{ heroe.nombre | uppercase }} </h5>
+        <p class="card-text"> {{ heroe.bio }} </p>
+        <p class="card-text"> {{ heroe.aparicion | date: 'y' }} </p>
+      </div>
+   
+      <div class="card-footer">
+        <small class="text-muted"> {{ heroe.casa }} </small>
+      </div>
+      
+      <!-- Ruteo usando el boton -->
+      <div class="d-grid gap-2" (click)="verHeroe()"> <!-- No le pongo ningun parametro aca, porque ya le estoy diciendo en la clase que emita el idx, this.heroeSeleccionado.emit(this.idx) -->
+        <button class="btn btn-outline-primary" type="button"> Ver más.. </button>
+      </div>
+
+      <!-- Ruteo usando routerLink -->
+      <!-- <a class="btn btn-outline-primary" [routerLink]="['/heroe',i]" > Ver más.. </a> -->
+  
+    </div>
+  
+  </div>

@@ -1,0 +1,75 @@
+/* You can add global styles to this file, and also import other style files */
+
+body {
+  padding-bottom: 3.125rem;
+}
+
+.main-container {
+	margin-top: 2rem;
+}
+
+/* Heroes Component */
+.card-container {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: center;
+}
+
+.card-group {
+  display: inline-block;
+  margin: .625rem;
+  width: 25rem;
+}
+
+/* Heroe Component */
+.heroe-card {
+  display: flex;
+  flex-direction: row;
+  padding: 1rem;
+}
+
+.heroe-card-header {
+  padding: 0;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.heroe-card-body {
+  flex: 1 2 auto;
+}
+
+.btn-outline-danger {
+  max-width: 200px;
+}
+
+/* Animaciones */
+.animated {
+  -webkit-animation-duration: 1s;
+  animation-duration: 1s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+.fast {
+  -webkit-animation-duration: 0.4s;
+  animation-duration: 0.4s;
+  -webkit-animation-fill-mode: both;
+  animation-fill-mode: both;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+  }
+
+  to {
+    opacity: 1;
+  }
+}
+
+.fadeIn {
+  animation-name: fadeIn;
+}

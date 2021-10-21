@@ -1,0 +1,31 @@
+
+
+<div class="card text-white bg-dark mb-3 heroe-card animated fadeIn fast">
+	
+	<div class="heroe-card-header">
+		<h1> {{ heroe.nombre | uppercase }} </h1> <small> {{ heroe.aparicion | date: 'y' }} </small> <!--Los pipes los ponemos con la barra vertical |. O sea  {{ value_expression | pipe }}. En este caso vamos a usar el pipe DatePipe {{ value_expression | date: 'parametro pre-definido o bien parametro personalizado' }}. En este caso usamos 'y'que es un parametro personalizado que solo muestra el año.  -->
+		
+		<img [src]="heroe.img" alt="" class="img-fluid">
+		
+		<a href="heroes" class="btn btn-outline-danger" (click)="this.heroes"> Regresar </a>
+		<!-- <a [routerLink]="['/heroes']" class="btn btn-outline-danger"> --> <!--Regresar </a> En vez de usar el (click)="this.heroes" de arriba tambien lo podria haber hecho con el routerLink como en este caso -->
+	</div>
+
+
+	<div class="heroe-card-body">
+		<h5 class="card-title">Bio</h5>
+			<p>
+				{{ heroe.bio }}
+			</p>
+
+			<hr>
+
+			<h5>Casa</h5>
+			<!-- <img [src]=" heroe.casa == 'Marvel' ? 'assets/img/marvel-logo.png' : 'assets/img/dc-logo.png' " alt="" style="width: 100%;"> --> <!--Podemos mostrar la imagen de la casa de esta forma o bien usando el *ngIf como hice abajo -->
+		
+			<img *ngIf=" heroe.casa == 'Marvel' " src="assets/img/marvel-logo.png" alt="" style="width: 100%;">
+		
+			<img *ngIf=" heroe.casa == 'DC' " src="assets/img/dc-logo.png" alt="" style="width: 100%;">
+		</div>
+
+</div>

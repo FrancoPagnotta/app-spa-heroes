@@ -1,0 +1,13 @@
+<h1 class="animated fadeIn">Buscaste a: {{ termino }} </h1>
+
+	<div *ngIf="heroes.length == 0" class="alert alert-danger animated fadeIn fast" role="alert"> <!-- si la condicion del *ngIf es true, mostramos el error, de lo contrario mostramos las coincidencias -->
+		<h5>No existen resultados para el termino: {{ termino }} </h5>
+	</div>
+
+<div class="card-container">
+	<!-- *ngFor="let heroe of heroes; let i = index" --> <!--Recordar que con let i = index estamos tomando el indice de cada elemento del array -->
+	<app-heroe-tarjeta  (heroeSeleccionado)="verHeroe($event)" [heroe]="heroe" [idx]="heroe.idx" *ngFor="let heroe of heroes; let i = index"></app-heroe-tarjeta>
+</div>
+
+
+

@@ -1,0 +1,40 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+
+  <div class="container-fluid">
+	  
+    <a class="navbar-brand" href="#">
+      <img src="assets/img/A-64.png" alt="" width="30" height="24">
+    </a>
+
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+
+    <div class="collapse navbar-collapse" id="navbarSupportedContent">
+
+      <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+
+        <li class="nav-item">
+          <a class="nav-link" aria-current="page" [routerLink]="['home']" routerLinkActive="active"> Home </a> <!--No usamos el # para las rutas. Usamos el elemento [routerLink]="['']". Este recibe un arreglo como parametro y cada posicion es una ruta (recordemos que el nombre de una ruta lo definimos en la propiedad path en el objeto APP_ROUTES en el archivo app.routes.ts )-->
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['heroes']" routerLinkActive="active"> Heroes </a> <!--La directiva routerLinkActive NO VA ENTRE []. Esta directiva nos permite añadirle una clase CSS a la ruta vinculada cuando está activa, por lo tanto, cuando estemos en la ruta Home, se le van a aplicar los estilos correspondientes en la clase "active", cuando nos cambiemos a la ruta "about", le sacamos la clase active al anterior y se la ponemos a la ruta actual, about y asi sucesivamente. Esto nos permite, por ejemplo, que al pararnos en una ruta, esta se ponga en color blanco.  -->
+        </li>
+
+        <li class="nav-item">
+          <a class="nav-link" [routerLink]="['about']" routerLinkActive="active"> About </a>
+        </li>
+
+      </ul>
+
+      <form class="d-flex">
+        <input class="form-control me-2" type="search" placeholder="buscar heroe" aria-label="Search"  (keyup.enter)="buscarHeroe(buscarTexto.value)" #buscarTexto> <!-- #buscarTexto hace referencia a este elemento input. (keyup.enter)="" es un evento que se va a ejecutar una funcion cuando el usuario haga enter en el input. La funcion a ejecutar es buscarHeroe(parametro) que recibe como parametro buscarTexto.value o sea lo que el usuarioe escribio en el input -->
+        <button class="btn btn-outline-primary" type="button" (click)="buscarHeroe(buscarTexto.value)"> Buscar </button> <!-- usmos la misma funcion buscarHeroe pero aplicado al evento click de este button -->
+      </form>
+
+    </div>
+
+  </div>
+
+</nav>
